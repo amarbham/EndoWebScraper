@@ -2,7 +2,8 @@ const request = require('request');
 const cheerio = require('cheerio');
 const zip = require('lodash/zip');
 const ExcelJS = require('exceljs');
-const countries = require('./countries');
+const countries = require('../constants/countries');
+const endoDriverUrls = require('../constants/endoDriverUrls');
 
 class WebScraper {
     constructor() {
