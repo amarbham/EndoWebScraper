@@ -70,6 +70,7 @@ class WebScraper {
         });
 
         await workbook.xlsx.writeFile('latestEndoDriverData.xlsx');
+        console.log('Completed'); 
     };
 }
 
