@@ -8,7 +8,7 @@ class WebScraper {
     constructor() {
     }
 
-    async init(urls) {
+    async generateWorkBook(urls) {
         const workbook = new ExcelJS.Workbook();
         const data = await this.prepareRequests(urls);
 
@@ -24,24 +24,6 @@ class WebScraper {
         await workbook.xlsx.writeFile(fileName);
        console.log(`created ${fileName}`);
     }
-
-    async generateWorkbook(driver) {
-        const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet(`${driver.name}`);
-
-        worksheet.columns = [
-            { header: 'Country', key: 'country', width: 20 },
-            { header: 'Value', key: 'value' },
-            { header: 'DateRef', key: 'dateRef' },
-        ];
-
-        driver.data.forEach(element => {
-            worksheet.addRow(element);
-        });
-
-        await workbook.xlsx.writeFile(`${driver.name}.xlsx`);
-        console.log('Completed');
-    };
 
     request(driverName, requestOptions) {
         return new Promise((resolve) => {
@@ -108,23 +90,6 @@ class WebScraper {
             { header: 'DateRef', key: 'dateRef' },
         ];
     }
-    // async generateWorkbook(driver) {
-    //     const workbook = new ExcelJS.Workbook();
-    //     const worksheet = workbook.addWorksheet(`${driver.name}`);
-
-    //     worksheet.columns = [
-    //         { header: 'Country', key: 'country', width: 20 },
-    //         { header: 'Value', key: 'value' },
-    //         { header: 'DateRef', key: 'dateRef' },
-    //     ];
-
-    //     driver.data.forEach(element => {
-    //         worksheet.addRow(element);
-    //     });
-
-    //     await workbook.xlsx.writeFile(`${driver.name}.xlsx`);
-    //     console.log('Completed');
-    // };
 }
 
 
