@@ -1,6 +1,6 @@
 const endoDriverUrls = [
-    {name: 'PMI', url: 'https://tradingeconomics.com/country-list/services-pmi'},
-    {name: 'NMI', url: 'https://tradingeconomics.com/country-list/manufacturing-pmi'},
+    {name: 'PMI', url: 'https://tradingeconomics.com/country-list/manufacturing-pmi'},
+    {name: 'NMI', url: 'https://tradingeconomics.com/country-list/services-pmi'},
     {name: 'CS', url: 'https://tradingeconomics.com/country-list/consumer-confidence'},
     {name: 'BP', url: 'https://tradingeconomics.com/country-list/building-permits'},
     {name: 'M2', url: 'https://tradingeconomics.com/country-list/money-supply-m2'},

@@ -15,14 +15,13 @@ class WebScraper {
         for (let driver of data) {
             const worksheet = workbook.addWorksheet(`${driver.name}`);
             worksheet.columns = this.createWorksheetColumns();
-
             driver.data.forEach(element => {
                 worksheet.addRow(element);
             });
         }
         const fileName = 'endoDriverDataDownload.xlsx';
         await workbook.xlsx.writeFile(fileName);
-       console.log(`created ${fileName}`);
+        console.log(`created ${fileName}`);
     }
 
     request(driverName, requestOptions) {
@@ -35,11 +34,11 @@ class WebScraper {
                     const data = {
                         name: driverName,
                         data: this.prepareData(countryLabels, lastValues, dateRefs)
-                    }
-                    resolve(data)
+                    };
+                    resolve(data);
                 }
             });
-        })
+        });
     }
 
     extractData(selector, html) {
