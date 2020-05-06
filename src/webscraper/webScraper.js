@@ -5,15 +5,43 @@ const ExcelJS = require('exceljs');
 const countries = require('../constants/countries');
 
 class WebScraper {
-    constructor() { }
+    constructor() {
+    }
 
     async init(urls) {
+        const workbook = new ExcelJS.Workbook();
         const data = await this.prepareRequests(urls);
 
         for (let driver of data) {
-            this.generateWorkbook(driver);
+            const worksheet = workbook.addWorksheet(`${driver.name}`);
+            worksheet.columns = this.createWorksheetColumns();
+
+            driver.data.forEach(element => {
+                worksheet.addRow(element);
+            });
         }
+        const fileName = 'endoDriverDataDownload.xlsx';
+        await workbook.xlsx.writeFile(fileName);
+       console.log(`created ${fileName}`);
     }
+
+    async generateWorkbook(driver) {
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet(`${driver.name}`);
+
+        worksheet.columns = [
+            { header: 'Country', key: 'country', width: 20 },
+            { header: 'Value', key: 'value' },
+            { header: 'DateRef', key: 'dateRef' },
+        ];
+
+        driver.data.forEach(element => {
+            worksheet.addRow(element);
+        });
+
+        await workbook.xlsx.writeFile(`${driver.name}.xlsx`);
+        console.log('Completed');
+    };
 
     request(driverName, requestOptions) {
         return new Promise((resolve) => {
@@ -22,7 +50,7 @@ class WebScraper {
                     const lastValues = this.extractData('lastValue', html);
                     const dateRefs = this.extractData('dateRef', html);
                     const countryLabels = this.extractData('country', html);
-                    const data = { 
+                    const data = {
                         name: driverName,
                         data: this.prepareData(countryLabels, lastValues, dateRefs)
                     }
@@ -31,19 +59,6 @@ class WebScraper {
             });
         })
     }
-
-    // request(options) {
-    //     Request(options, (error, response, html) => {
-    //         if (!error && response.statusCode == 200) {
-    //             const lastValues = this.extractData('lastValue', html);
-    //             const dateRefs = this.extractData('dateRef', html);
-    //             const countryLabels = this.extractData('country', html);
-    //             const data = this.prepareData(countryLabels, lastValues, dateRefs)
-    //             console.log(data)
-    //             // this.generateWorkbook(data);
-    //         }
-    //     });
-    // }
 
     extractData(selector, html) {
         const $ = cheerio.load(html);
@@ -86,23 +101,30 @@ class WebScraper {
         })
     }
 
-    async generateWorkbook(driver) {
-        const workbook = new ExcelJS.Workbook();
-        const worksheet = workbook.addWorksheet(`${driver.name}`);
-
-        worksheet.columns = [
+    createWorksheetColumns() {
+        return [
             { header: 'Country', key: 'country', width: 20 },
             { header: 'Value', key: 'value' },
             { header: 'DateRef', key: 'dateRef' },
         ];
+    }
+    // async generateWorkbook(driver) {
+    //     const workbook = new ExcelJS.Workbook();
+    //     const worksheet = workbook.addWorksheet(`${driver.name}`);
 
-        driver.data.forEach(element => {
-            worksheet.addRow(element);
-        });
+    //     worksheet.columns = [
+    //         { header: 'Country', key: 'country', width: 20 },
+    //         { header: 'Value', key: 'value' },
+    //         { header: 'DateRef', key: 'dateRef' },
+    //     ];
 
-        await workbook.xlsx.writeFile(`${driver.name}.xlsx`);
-        console.log('Completed');
-    };
+    //     driver.data.forEach(element => {
+    //         worksheet.addRow(element);
+    //     });
+
+    //     await workbook.xlsx.writeFile(`${driver.name}.xlsx`);
+    //     console.log('Completed');
+    // };
 }
 
 
