@@ -8,6 +8,10 @@ class WebScraper {
     constructor() {
     }
 
+    async init(urls) {
+        this.generateWorkBook(urls);
+    }
+
     async generateWorkBook(urls) {
         const workbook = new ExcelJS.Workbook();
         const data = await this.prepareRequests(urls);
