@@ -47,7 +47,7 @@ class WebScraper {
             country: 'table.table > tbody > tr td:nth-child(1) > a',
             lastValue: 'table.table > tbody > tr td:nth-child(2)',
             dateRef: 'table.table > tbody > tr td:nth-child(4) > span'
-        }
+        };
         const data = [];
 
         $(selectors[selector]).each((i, el) => {
@@ -55,9 +55,9 @@ class WebScraper {
             if (selector === 'lastValue') {
                 value = parseFloat(el.attribs['data-value']);
             } else {
-                value = el.children[0].data.trim()
+                value = el.children[0].data.trim();
             }
-            data.push(value)
+            data.push(value);
         });
         return data;
     }
@@ -69,17 +69,17 @@ class WebScraper {
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36'
                 }
-            }
-            return this.request(driver.name, requestOptions)
-        }))
+            };
+            return this.request(driver.name, requestOptions);
+        }));
     }
 
     prepareData(...data) {
         return zip(...data).filter(element => {
             return element.find(country => {
-                return countries.includes(country)
-            })
-        })
+                return countries.includes(country);
+            });
+        });
     }
 
     createWorksheetColumns() {
@@ -92,4 +92,4 @@ class WebScraper {
 }
 
 
-module.exports = WebScraper
+module.exports = WebScraper;
