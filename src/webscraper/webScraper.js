@@ -8,7 +8,7 @@ class WebScraper {
     constructor() {
     }
 
-    async init(urls) {
+    init(urls) {
         this.generateWorkBook(urls);
     }
 
@@ -25,7 +25,7 @@ class WebScraper {
         }
         const fileName = 'endoDriverDataDownload.xlsx';
         await workbook.xlsx.writeFile(fileName);
-        console.log(`created ${fileName}`);
+        process.stdout.write(`created ${fileName}`);
     }
 
     request(driverName, requestOptions) {

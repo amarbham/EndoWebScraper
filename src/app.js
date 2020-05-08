@@ -1,5 +1,16 @@
-const WebScraper = require('./webscraper/webScraper');
+const yargs = require("yargs");
+const WebScraper = require('./webScraper/webScraper');
 const endoDriverUrls = require('./constants/endoDriverUrls');
 const webScraper = new WebScraper();
+const param = yargs.argv.param;
 
-webScraper.init(endoDriverUrls);
+process.stdout.write(`Please wait... \n executing ${param} \n`);
+
+if (param === 'webscraper') {
+    webScraper.init(endoDriverUrls);
+}
+
+if (param === 'endoUpdate') {
+    // endoUpdate.init();
+}
+  

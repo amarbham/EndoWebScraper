@@ -4,7 +4,8 @@
   "description": "",
   "main": "./src/app.js",
   "scripts": {
-    "start": "node ./src/app.js",
+    "webscraper": "node ./src/app.js --param webscraper",
+    "endo-update": "node ./src/app.js --param endoUpdate",
     "lint": "jshint --exclude ./node_modules .",
     "test": "mocha './src/**/**.spec.js'"
   },
@@ -14,7 +15,8 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.3",
     "lodash": "^4.17.15",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "yargs": "^15.3.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
