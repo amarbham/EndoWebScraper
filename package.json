@@ -4,9 +4,9 @@
   "description": "",
   "main": "./src/app.js",
   "scripts": {
-    "test": "mocha",
     "start": "node ./src/app.js",
-    "lint": "jshint --exclude ./node_modules ."
+    "lint": "jshint --exclude ./node_modules .",
+    "test": "mocha './src/**/**.spec.js'"
   },
   "keywords": [],
   "author": "",

@@ -14,7 +14,7 @@ class WebScraper {
 
     async generateWorkBook(urls) {
         const workbook = new ExcelJS.Workbook();
-        const data = await this.prepareRequests(urls);
+        const data =  await Promise.all(this.prepareRequests(urls))
 
         for (let driver of data) {
             const worksheet = workbook.addWorksheet(`${driver.name}`);
@@ -66,16 +66,16 @@ class WebScraper {
         return data;
     }
 
-    prepareRequests(endoDriversUrls) {
-        return Promise.all(endoDriversUrls.map(driver => {
+     prepareRequests(urls) {
+        return urls.map(async driver => {
             const requestOptions = {
                 url: driver.url,
                 headers: {
                     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36'
                 }
             };
-            return this.request(driver.name, requestOptions);
-        }));
+            return await this.request(driver.name, requestOptions)
+        })
     }
 
     prepareData(...data) {

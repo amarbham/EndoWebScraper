@@ -1,11 +1,12 @@
 const assert = require('chai').assert;
 const WebScraper = require('./webScraper');
-const htmlMock = require('./htmlMock');
-const countries = require('./countries');
+const htmlMock = require('../constants/htmlMock');
+const countries = require('../constants/countries');
+const endoDriverUrls = require('../constants/endoDriverUrls');
 
 describe('WebScraper', () => {
     const webScraper = new WebScraper();
-    webScraper.init();
+    webScraper.init(endoDriverUrls);
 
     describe('extractData()', () => {
 
