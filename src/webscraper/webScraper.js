@@ -23,7 +23,7 @@ class WebScraper {
                 worksheet.addRow(element);
             });
         }
-        const fileName = 'endoDriverDataDownload.xlsx';
+        const fileName = 'download.xlsx';
         await workbook.xlsx.writeFile(fileName);
         process.stdout.write(`created ${fileName}`);
     }
