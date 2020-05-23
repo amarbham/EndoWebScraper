@@ -15,4 +15,3 @@ if (param === 'webscraper') {
 if (param === 'endoUpdate') {
     endoUpdate.init();
 }
-  
