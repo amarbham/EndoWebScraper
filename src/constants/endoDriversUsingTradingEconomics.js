@@ -1,4 +1,4 @@
-const endoDriversUsingTradingEconomics = [
+const endoDriversUsingTradingEconomics = {
     // { 
     //     country: 'Australia',
     //     drivers: [
@@ -145,8 +145,7 @@ const endoDriversUsingTradingEconomics = [
     //         'CBBS'
     //     ]
     // },
-    {
-        country: 'Switzerland',
+     'Switzerland': {
         drivers: [
             'PMI',
             'NMI',
@@ -221,6 +220,6 @@ const endoDriversUsingTradingEconomics = [
     //         'CBBS'
     //     ]
     // }
-];
+};
 
 module.exports = endoDriversUsingTradingEconomics;

@@ -12,6 +12,7 @@ const filenames = require('../constants/filenames');
 const endoDriversUsingTradingEconomics = require('../constants/endoDriversUsingTradingEconomics');
 const ExcelJS = require('exceljs');
 const path = require('path');
+const isUndefined = require('lodash/isUndefined');
 const SWISS_endoSheet = path.join(__dirname, '../../endoSheets/SWZ_Endogenous_driver_analysis.xlsx');
 const endoDownloadWorkBookFile = path.join(__dirname, '../../download.xlsx');
 
@@ -26,30 +27,36 @@ class EndoUpdate {
 
         this.workbook.worksheets.forEach(sheet => {
             const worksheet = this.workbook.getWorksheet(sheet.name);
+            const downloadSheetData = this.prepareSheetValueDataForCopy(worksheet.getSheetValues(), sheet.name);
 
-            const data = worksheet.getSheetValues()
-                .slice(2)
-                .map((item) => item.slice(1));
-
-                data.forEach((row) => {
-                    const dateStr = row[2]
-                    const date = moment(dateStr, 'MMM/YY');
-                })
+            downloadSheetData.forEach(item => {
+                this.copyValues(item, sheet.name)
+            });
         });
-        // countries.forEach(country => this.getExcelWorkbookForCountry(country));
     }
 
-    getExcelWorkbookForCountry(country) {
-        console.log(country)
+    copyValues(item, targetSheet) {
+        console.log(item.country);
+        console.log(item.value);
+        console.log(item.dateRef);
+        console.log(targetSheet);
     }
 
-    async copyValue() {
-        const workbook = new ExcelJS.Workbook();
-        console.log(filenames.FILE_NAME_SWITZERLAND)
-        // await workbook.xlsx.readFile(SWISS_endoSheet);
-        // var worksheet = workbook.getWorksheet('PMI');
-        // worksheet.getCell('B2').value = 11;
-        // workbook.xlsx.writeFile(SWISS_endoSheet);
+    prepareSheetValueDataForCopy(sheetValues, sheetName) {
+        return sheetValues
+            .slice(2)
+            .reduce((acc, row) => {
+                let country = row[1];
+                let value = row[2];
+                let dateRef = moment(row[3], 'MMM/YY');
+                let endoDrivers = endoDriversUsingTradingEconomics[country];
+
+                if (!isUndefined(endoDrivers) && endoDrivers.drivers.includes(sheetName)) {
+                    return acc.concat({country, value, dateRef});
+                } else {
+                    return acc;
+                }
+            }, [])
     }
 }
 
