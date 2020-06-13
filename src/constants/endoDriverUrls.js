@@ -16,6 +16,7 @@ const endoDriverUrls = [
     {name: 'CBBS', url: 'https://tradingeconomics.com/country-list/central-bank-balance-sheet'},
     {name: 'GDP', url: 'https://tradingeconomics.com/country-list/gdp'},
     {name: 'GDP Annual Growth', url: 'https://tradingeconomics.com/country-list/gdp-annual-growth-rate'},
+    {name: 'Business Confidence', url: 'https://tradingeconomics.com/country-list/business-confidence'}
 ];
 
 module.exports = endoDriverUrls;

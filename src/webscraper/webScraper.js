@@ -6,6 +6,7 @@ const countries = require('../constants/countries');
 
 class WebScraper {
     constructor() {
+        this.workbook = new ExcelJS.Workbook();
     }
 
     init(urls) {
@@ -13,18 +14,20 @@ class WebScraper {
     }
 
     async generateWorkBook(urls) {
-        const workbook = new ExcelJS.Workbook();
         const data =  await Promise.all(this.prepareRequests(urls))
 
         for (let driver of data) {
-            const worksheet = workbook.addWorksheet(`${driver.name}`);
+            const worksheet = this.workbook.addWorksheet(`${driver.name}`);
             worksheet.columns = this.createWorksheetColumns();
             driver.data.forEach(element => {
                 worksheet.addRow(element);
             });
         }
+
+        this.rewrite_ISM();
+
         const fileName = 'download.xlsx';
-        await workbook.xlsx.writeFile(fileName);
+        await this.workbook.xlsx.writeFile(fileName);
         process.stdout.write(`created ${fileName}`);
     }
 
@@ -92,6 +95,15 @@ class WebScraper {
             { header: 'Value', key: 'value' },
             { header: 'DateRef', key: 'dateRef' },
         ];
+    }
+
+    rewrite_ISM() {
+        // Overwrite Business Confidence value into PMI value for ISM
+        const businessConfidence_WorkSheet = this.workbook.getWorksheet('Business Confidence');
+        const PMI_WorkSheet = this.workbook.getWorksheet('PMI');
+        const US_ISM_Row = 18;    
+        PMI_WorkSheet.getRow(US_ISM_Row).values = businessConfidence_WorkSheet.getRow(US_ISM_Row).values;
+        this.workbook.removeWorksheet('Business Confidence');
     }
 }
 
