@@ -8,8 +8,6 @@ const param = yargs.argv.param;
 
 process.stdout.write(`Please wait... \n executing ${param} \n`);
 
-webScraper.init(endoDriverUrls);
-
 if (param === 'webscraper') {
     webScraper.init(endoDriverUrls);
 }
