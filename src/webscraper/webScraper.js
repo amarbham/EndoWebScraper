@@ -82,11 +82,13 @@ class WebScraper {
     }
 
     prepareData(...data) {
-        return zip(...data).filter(element => {
-            return element.find(country => {
-                return countries.includes(country);
-            });
-        });
+        return zip(...data)
+            .filter(element => {
+                return element.find(country => {
+                    return countries.includes(country);
+                });
+            })
+            .sort();
     }
 
     createWorksheetColumns() {
@@ -101,8 +103,25 @@ class WebScraper {
         // Overwrite Business Confidence value into PMI value for ISM
         const businessConfidence_WorkSheet = this.workbook.getWorksheet('Business Confidence');
         const PMI_WorkSheet = this.workbook.getWorksheet('PMI');
-        const US_ISM_Row = 18;    
-        PMI_WorkSheet.getRow(US_ISM_Row).values = businessConfidence_WorkSheet.getRow(US_ISM_Row).values;
+        let US_ISM_ROW_NUMBER;
+        let US_BUSINESS_CONFIDENCE_ROW_NUMBER;
+
+        PMI_WorkSheet.eachRow((row, rowNumber) => {
+            const country = row.getCell('country').value;
+            if (country === 'United States') {
+                US_ISM_ROW_NUMBER = rowNumber            
+            }
+        })
+
+        businessConfidence_WorkSheet.eachRow((row, rowNumber) => {
+            const country = row.getCell('country').value;
+            let US_ISM_ROW_NUMBER
+            if (country === 'United States') {
+                US_BUSINESS_CONFIDENCE_ROW_NUMBER = rowNumber            
+            }
+        })
+    
+        PMI_WorkSheet.getRow(US_ISM_ROW_NUMBER).values = businessConfidence_WorkSheet.getRow(US_BUSINESS_CONFIDENCE_ROW_NUMBER).values;
         this.workbook.removeWorksheet('Business Confidence');
     }
 }

@@ -7,7 +7,7 @@ const endoDriverUrls = [
     {name: 'IR%', url: 'https://tradingeconomics.com/country-list/interest-rate'},
     {name: 'CPI', url: 'https://tradingeconomics.com/country-list/consumer-price-index-cpi'},
     {name: 'CCPI', url: 'https://tradingeconomics.com/country-list/core-consumer-prices'},
-    {name: 'PP', url: 'https://tradingeconomics.com/country-list/producer-prices'},
+    {name: 'PPI', url: 'https://tradingeconomics.com/country-list/producer-prices'},
     {name: 'EP', url: 'https://tradingeconomics.com/country-list/employed-persons'},
     {name: 'UE', url: 'https://tradingeconomics.com/country-list/unemployment-rate'},
     {name: 'Govt Debt to GDP', url: 'https://tradingeconomics.com/country-list/government-debt-to-gdp'},
