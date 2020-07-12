@@ -1,5 +1,6 @@
 const Request = require('request');
 const cheerio = require('cheerio');
+const moment = require('moment');
 const zip = require('lodash/zip');
 const ExcelJS = require('exceljs');
 const countries = require('../constants/countries');
@@ -26,7 +27,7 @@ class WebScraper {
 
         this.rewrite_ISM();
 
-        const fileName = 'download.xlsx';
+        const fileName = `${moment().format('MM.DD.YYYY')}_scrape.xlsx`;
         await this.workbook.xlsx.writeFile(fileName);
         process.stdout.write(`created ${fileName}`);
     }
