@@ -4,7 +4,7 @@ const endoDriverUrls = [
     {name: 'CS', url: 'https://tradingeconomics.com/country-list/consumer-confidence'},
     {name: 'BP', url: 'https://tradingeconomics.com/country-list/building-permits'},
     {name: 'M2', url: 'https://tradingeconomics.com/country-list/money-supply-m2'},
-    {name: 'IR%', url: 'https://tradingeconomics.com/country-list/interest-rate'},
+    {name: 'IR%', url: 'https://tradingeconomics.com/country-list/interbank-rate'},
     {name: 'CPI', url: 'https://tradingeconomics.com/country-list/consumer-price-index-cpi'},
     {name: 'CCPI', url: 'https://tradingeconomics.com/country-list/core-consumer-prices'},
     {name: 'PPI', url: 'https://tradingeconomics.com/country-list/producer-prices'},
