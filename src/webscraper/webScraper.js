@@ -2,6 +2,8 @@ const Request = require('request');
 const cheerio = require('cheerio');
 const moment = require('moment');
 const zip = require('lodash/zip');
+const map = require('lodash/map');
+const find = require('lodash/find');
 const ExcelJS = require('exceljs');
 const countries = require('../constants/countries');
 
@@ -25,7 +27,9 @@ class WebScraper {
             });
         }
 
+        /* Move US value from Business Confidence to PMI*/
         this.rewrite_ISM();
+        this.createNotesWorksheet()
 
         const fileName = `${moment().format('MM.DD.YYYY')}_scrape.xlsx`;
         await this.workbook.xlsx.writeFile(fileName);
@@ -86,8 +90,13 @@ class WebScraper {
         return zip(...data)
             .filter(element => {
                 return element.find(country => {
-                    return countries.includes(country);
+                    return map(countries, 'name').includes(country);
                 });
+            })
+            .map(element => {
+                const name = element[0];
+                const countryCode = find(countries, { name }).code;
+                return [...element, countryCode]
             })
             .sort();
     }
@@ -97,12 +106,13 @@ class WebScraper {
             { header: 'Country', key: 'country', width: 20 },
             { header: 'Value', key: 'value' },
             { header: 'DateRef', key: 'dateRef' },
+            { header: 'Country Code', key: 'countryCode' },
         ];
     }
 
     rewrite_ISM() {
         // Overwrite Business Confidence value into PMI value for ISM
-        const businessConfidence_WorkSheet = this.workbook.getWorksheet('Business Confidence');
+        const businessConfidence_WorkSheet = this.workbook.getWorksheet('BC');
         const PMI_WorkSheet = this.workbook.getWorksheet('PMI');
         let US_ISM_ROW_NUMBER;
         let US_BUSINESS_CONFIDENCE_ROW_NUMBER;
@@ -123,7 +133,25 @@ class WebScraper {
         })
     
         PMI_WorkSheet.getRow(US_ISM_ROW_NUMBER).values = businessConfidence_WorkSheet.getRow(US_BUSINESS_CONFIDENCE_ROW_NUMBER).values;
-        this.workbook.removeWorksheet('Business Confidence');
+    }
+
+    createNotesWorksheet() {
+        this.workbook.addWorksheet('NOTES')
+        const NOTES_WorkSheet = this.workbook.getWorksheet('NOTES');
+        const notes = [
+            'Checklist for manual changes required',
+            'AUD BP',
+            'AUD M2',
+            'AUD IR',
+            'EUR T10',
+            'UK BP',
+            'US NMI',
+            'US PPI',
+            'US PPI CORE',
+            'NZ M2'
+        ];
+
+        NOTES_WorkSheet.getColumn(1).values = notes
     }
 }
 

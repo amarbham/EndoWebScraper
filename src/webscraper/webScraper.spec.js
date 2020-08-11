@@ -17,7 +17,7 @@ describe('WebScraper', () => {
 
         it('should extract "country" labels from the "countries" selector', () => {
             const countryLabels = webScraper.extractData('country', htmlMock);
-            assert.equal(countries.every(el => countryLabels.includes(el)), true);
+            assert.equal(countries.every(el => countryLabels.includes(el.name)), true);
         });
 
         it('should extract date reference from the "dateRefs" selector', () => {
