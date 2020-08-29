@@ -3,7 +3,8 @@
 ** v1.4 **
 - Add BC tab in webscraper and scrape data.
 - Add country codes
-- Add notes worksheet describing manual changes needed
+- Add notes worksheet describing manual changes needed with hyperlinks to source data
+- Change data source of 'GDP Annual Growth' to https://tradingeconomics.com/country-list/gdp-growth-rate
 
 ** v1.3 **
 - Add cot notes script

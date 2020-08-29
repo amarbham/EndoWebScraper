@@ -13,11 +13,12 @@ class WebScraper {
     }
 
     init(urls) {
+        this.createNotesWorksheet()
         this.generateWorkBook(urls);
     }
 
     async generateWorkBook(urls) {
-        const data =  await Promise.all(this.prepareRequests(urls))
+        const data = await Promise.all(this.prepareRequests(urls))
 
         for (let driver of data) {
             const worksheet = this.workbook.addWorksheet(`${driver.name}`);
@@ -29,7 +30,6 @@ class WebScraper {
 
         /* Move US value from Business Confidence to PMI*/
         this.rewrite_ISM();
-        this.createNotesWorksheet()
 
         const fileName = `${moment().format('MM.DD.YYYY')}_scrape.xlsx`;
         await this.workbook.xlsx.writeFile(fileName);
@@ -74,7 +74,7 @@ class WebScraper {
         return data;
     }
 
-     prepareRequests(urls) {
+    prepareRequests(urls) {
         return urls.map(async driver => {
             const requestOptions = {
                 url: driver.url,
@@ -120,7 +120,7 @@ class WebScraper {
         PMI_WorkSheet.eachRow((row, rowNumber) => {
             const country = row.getCell('country').value;
             if (country === 'United States') {
-                US_ISM_ROW_NUMBER = rowNumber            
+                US_ISM_ROW_NUMBER = rowNumber
             }
         })
 
@@ -128,10 +128,10 @@ class WebScraper {
             const country = row.getCell('country').value;
             let US_ISM_ROW_NUMBER
             if (country === 'United States') {
-                US_BUSINESS_CONFIDENCE_ROW_NUMBER = rowNumber            
+                US_BUSINESS_CONFIDENCE_ROW_NUMBER = rowNumber
             }
         })
-    
+
         PMI_WorkSheet.getRow(US_ISM_ROW_NUMBER).values = businessConfidence_WorkSheet.getRow(US_BUSINESS_CONFIDENCE_ROW_NUMBER).values;
     }
 
@@ -139,19 +139,29 @@ class WebScraper {
         this.workbook.addWorksheet('NOTES')
         const NOTES_WorkSheet = this.workbook.getWorksheet('NOTES');
         const notes = [
-            'Checklist for manual changes required',
-            'AUD BP',
-            'AUD M2',
-            'AUD IR',
-            'EUR T10',
-            'UK BP',
-            'US NMI',
-            'US PPI',
-            'US PPI CORE',
-            'NZ M2'
+            ['AUD BP', 'https://www.abs.gov.au/AUSSTATS/abs@.nsf/second+level+view?ReadForm&prodno=8731.0&viewtitle=Building%20Approvals,%20Australia~Aug%202019~Previous~01/10/2019&&tabname=Past%20Future%20Issues&prodno=8731.0&issue=Aug%202019&num=&view=&'],
+            ['AUD M2', 'https://www.ceicdata.com/en/indicator/australia/money-supply-m2'],
+            ['AUD IR', 'https://fred.stlouisfed.org/series/IRSTCI01AUM156N'],
+            ['UK BP', 'https://www.gov.uk/government/statistical-data-sets/live-tables-on-planning-application-statistics'],
+            ['US NMI', 'https://tradingeconomics.com/united-states/non-manufacturing-pmi'],
+            ['US PPI', 'https://fred.stlouisfed.org/series/WPSFD49207'],
+            ['US PPI CORE', 'https://fred.stlouisfed.org/series/WPSFD4131'],
+            ['NZ M2', 'https://www.ceicdata.com/en/indicator/new-zealand/money-supply-m2']
         ];
-
-        NOTES_WorkSheet.getColumn(1).values = notes
+        NOTES_WorkSheet.addRows(notes);
+        const linksCol = NOTES_WorkSheet.getColumn(2);
+        linksCol.font = {
+            color: {argb: '0000FF'},
+            underline: true
+        }
+        linksCol.width = 100;
+        linksCol.eachCell((cell) => {
+            const url = cell.value
+            cell.value = {
+                text: url,
+                hyperlink: url,
+            };
+        });
     }
 }
 

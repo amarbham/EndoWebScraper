@@ -9,6 +9,7 @@ const endoDriverUrls = [
     {name: 'CPI', url: 'https://tradingeconomics.com/country-list/consumer-price-index-cpi'},
     {name: 'CCPI', url: 'https://tradingeconomics.com/country-list/core-consumer-prices'},
     {name: 'PPI', url: 'https://tradingeconomics.com/country-list/producer-prices'},
+    {name: 'CPPI', url: 'https://tradingeconomics.com/country-list/core-producer-prices'},
     {name: 'EP', url: 'https://tradingeconomics.com/country-list/employed-persons'},
     {name: 'UE', url: 'https://tradingeconomics.com/country-list/unemployment-rate'},
     {name: 'Govt Debt to GDP', url: 'https://tradingeconomics.com/country-list/government-debt-to-gdp'},
@@ -16,7 +17,7 @@ const endoDriverUrls = [
     {name: 'Govt Revenues', url: 'https://tradingeconomics.com/country-list/government-revenues'},
     {name: 'CBBS', url: 'https://tradingeconomics.com/country-list/central-bank-balance-sheet'},
     {name: 'GDP', url: 'https://tradingeconomics.com/country-list/gdp'},
-    {name: 'GDP Annual Growth', url: 'https://tradingeconomics.com/country-list/gdp-annual-growth-rate'}
+    {name: 'GDP Annual Growth', url: 'https://tradingeconomics.com/country-list/gdp-growth-rate'}
 ];
 
 module.exports = endoDriverUrls;
