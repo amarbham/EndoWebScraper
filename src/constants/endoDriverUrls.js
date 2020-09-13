@@ -17,7 +17,8 @@ const endoDriverUrls = [
     {name: 'Govt Revenues', url: 'https://tradingeconomics.com/country-list/government-revenues'},
     {name: 'CBBS', url: 'https://tradingeconomics.com/country-list/central-bank-balance-sheet'},
     {name: 'GDP', url: 'https://tradingeconomics.com/country-list/gdp'},
-    {name: 'GDP Annual Growth', url: 'https://tradingeconomics.com/country-list/gdp-growth-rate'}
+    {name: 'GDP Annual Growth', url: 'https://tradingeconomics.com/country-list/gdp-growth-rate'},
+    {name: 'T10', url: 'https://tradingeconomics.com/bonds'}
 ];
 
 module.exports = endoDriverUrls;
