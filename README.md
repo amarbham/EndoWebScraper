@@ -1,5 +1,8 @@
 ## Changelog ##
 
+** v1.5 **
+- Add T10 scrape data
+
 ** v1.4 **
 - Add BC tab in webscraper and scrape data.
 - Add country codes
