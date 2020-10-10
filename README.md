@@ -2,6 +2,7 @@
 
 ** v1.5 **
 - Add T10 scrape data
+- Rename EndoWebscraper to MacrofundApp
 
 ** v1.4 **
 - Add BC tab in webscraper and scrape data.

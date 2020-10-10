@@ -18,6 +18,7 @@ const endoDriverUrls = [
     {name: 'CBBS', url: 'https://tradingeconomics.com/country-list/central-bank-balance-sheet'},
     {name: 'GDP', url: 'https://tradingeconomics.com/country-list/gdp'},
     {name: 'GDP Annual Growth', url: 'https://tradingeconomics.com/country-list/gdp-growth-rate'},
+    {name: 'GDP Growth Rate', url: 'https://tradingeconomics.com/country-list/gdp-growth-rate'},
     {name: 'T10', url: 'https://tradingeconomics.com/bonds'}
 ];
 

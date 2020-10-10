@@ -14,8 +14,8 @@ const countries = [
     { name: "Sweden", code: 'SEK'},
     { name: "Switzerland", code: 'CHF'},
     { name: "Turkey", code: 'TRY'},
-    { name: "United Kingdom", code: 'GBP'},
-    { name: "United States", code: 'USD'}
+    { name: "United Kingdom", code: 'GBP', aliases: ['UK']},
+    { name: "United States", code: 'USD', aliases: ['US']}
 ];
 
 module.exports = countries;

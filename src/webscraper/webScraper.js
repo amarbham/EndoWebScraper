@@ -3,7 +3,9 @@ const cheerio = require('cheerio');
 const moment = require('moment');
 const _ = require('lodash');
 const ExcelJS = require('exceljs');
+const Rewrite = require('./rewrite')
 const countries = require('../constants/countries');
+const selectors = require('../constants/selectors');
 const notes = require('../constants/notes');
 
 class WebScraper {
@@ -15,7 +17,7 @@ class WebScraper {
         const scrapeData = await this.getData(urls);
         this.createNotesWorksheet();
         this.prepareWorkbook(scrapeData);
-        this.manualOverwrites();
+        this.rewrite();
         this.generateWorkBook();
     }
 
@@ -97,14 +99,6 @@ class WebScraper {
 
     extractData(selector, html) {
         const $ = cheerio.load(html);
-        const selectors = {
-            country: 'table.table > tbody > tr td:nth-child(1) > a',
-            lastValue: 'table.table > tbody > tr td:nth-child(2)',
-            dateRef: 'table.table > tbody > tr td:nth-child(4) > span',
-            govBond: 'table > tbody > tr td:nth-child(2) > a > b',
-            yieldValue: 'table > tbody > tr td:nth-child(3)',
-            dateRefBond: 'table > tbody > tr td#date'
-        };
         const data = [];
 
         $(selectors[selector]).each((i, el) => {
@@ -119,9 +113,9 @@ class WebScraper {
         return data;
     }
 
-    manualOverwrites() {
+    rewrite() {
         /* Move US value from Business Confidence to PMI*/
-        this.rewrite_ISM()
+        Rewrite.US_ISM(this.workbook);
     }
 
     createWorksheetColumns() {
@@ -131,31 +125,6 @@ class WebScraper {
             { header: 'DateRef', key: 'dateRef' },
             { header: 'Country Code', key: 'countryCode' },
         ];
-    }
-
-    rewrite_ISM() {
-        // Overwrite Business Confidence value into PMI value for ISM
-        const businessConfidence_WorkSheet = this.workbook.getWorksheet('BC');
-        const PMI_WorkSheet = this.workbook.getWorksheet('PMI');
-        let US_ISM_ROW_NUMBER;
-        let US_BUSINESS_CONFIDENCE_ROW_NUMBER;
-
-        PMI_WorkSheet.eachRow((row, rowNumber) => {
-            const country = row.getCell('country').value;
-            if (country === 'United States') {
-                US_ISM_ROW_NUMBER = rowNumber
-            }
-        })
-
-        businessConfidence_WorkSheet.eachRow((row, rowNumber) => {
-            const country = row.getCell('country').value;
-            let US_ISM_ROW_NUMBER
-            if (country === 'United States') {
-                US_BUSINESS_CONFIDENCE_ROW_NUMBER = rowNumber
-            }
-        })
-
-        PMI_WorkSheet.getRow(US_ISM_ROW_NUMBER).values = businessConfidence_WorkSheet.getRow(US_BUSINESS_CONFIDENCE_ROW_NUMBER).values;
     }
 
     createNotesWorksheet() {
