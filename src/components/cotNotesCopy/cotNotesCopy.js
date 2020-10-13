@@ -1,8 +1,8 @@
 const path = require('path');
 const ExcelJS = require('exceljs');
 const Big = require('big.js');
-const cotOpenInterestdWorkBookFile = path.join(__dirname, '../../files/COT/COT & Open Interest Report.xlsx');
-const cotNotesdWorkBookFile = path.join(__dirname, '../../files/COT/COT Notes.xlsx');
+const cotOpenInterestdWorkBookFile = path.join(__dirname, '../../../files/COT/COT & Open Interest Report.xlsx');
+const cotNotesdWorkBookFile = path.join(__dirname, '../../../files/COT/COT Notes.xlsx');
 
 class CotNotesCopy {
     constructor() {

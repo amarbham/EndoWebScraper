@@ -1,8 +1,8 @@
 const assert = require('chai').assert;
-const WebScraper = require('./webScraper');
-const htmlMock = require('../constants/htmlMock');
-const countries = require('../constants/countries');
-const endoDriverUrls = require('../constants/endoDriverUrls');
+const WebScraper = require('./webscraper');
+const htmlMock = require('./constants/htmlMock');
+const countries = require('./constants/countries');
+const endoDriverUrls = require('./constants/endoDriverUrls');
 
 describe('WebScraper', () => {
     const webScraper = new WebScraper();

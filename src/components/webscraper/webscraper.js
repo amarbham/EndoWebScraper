@@ -3,10 +3,16 @@ const cheerio = require('cheerio');
 const moment = require('moment');
 const _ = require('lodash');
 const ExcelJS = require('exceljs');
-const Rewrite = require('./rewrite')
-const countries = require('../constants/countries');
-const selectors = require('../constants/selectors');
-const notes = require('../constants/notes');
+const Rewrite = require('./services/rewrite')
+const countries = require('./constants/countries');
+const selectors = require('./constants/selectors');
+const notes = require('./constants/notes');
+const Fred = require('fred-api');
+// const FRED_API_KEY = require('../constants/api')
+// const fred = new Fred(FRED_API_KEY);
+process.env.FRED_KEY = 'f1325b1a0d00312e657806c2abb8eb87'
+const apiKey = process.env.FRED_KEY;
+const fred = new Fred('f1325b1a0d00312e657806c2abb8eb87');
 
 class WebScraper {
     constructor() {
@@ -19,6 +25,8 @@ class WebScraper {
         this.prepareWorkbook(scrapeData);
         this.rewrite();
         this.generateWorkBook();
+
+        //fred.getSeriesObservations({series_id: 'IRLTLT01EZM156N', frequency: 'm', observation_start: '2020-08-01', limit: 1}, (error, result) => result);
     }
 
     async prepareWorkbook(scrapeData) {

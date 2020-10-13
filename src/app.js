@@ -1,7 +1,7 @@
 const yargs = require("yargs");
-const WebScraper = require('./webScraper/webScraper');
-const CotNotesCopy = require('./cotNotesCopy/cotNotesCopy');
-const endoDriverUrls = require('./constants/endoDriverUrls');
+const WebScraper = require('./components/webscraper/webscraper');
+const CotNotesCopy = require('./components/cotNotesCopy/cotNotesCopy');
+const endoDriverUrls = require('./components/webscraper/constants/endoDriverUrls');
 const webScraper = new WebScraper();
 const cotNotesCopy = new CotNotesCopy();
 const param = yargs.argv.param;
