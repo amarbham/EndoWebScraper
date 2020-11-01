@@ -18,7 +18,7 @@ class WebScraper {
         const scrapeData = await this.getData(urls);
         this.createNotesWorksheet();
         this.prepareWorkbook(scrapeData);
-        this.rewrite();
+        await this.rewrite();
         this.generateWorkBook();
     }
 
@@ -26,6 +26,7 @@ class WebScraper {
         for (let driver of scrapeData) {
             const worksheet = this.workbook.addWorksheet(`${driver.name}`);
             worksheet.columns = this.createWorksheetColumns();
+            worksheet.getColumn(2).alignment = {horizontal: 'left'};
             driver.data.forEach(element => {
                 worksheet.addRow(element);
             });
@@ -114,17 +115,17 @@ class WebScraper {
         return data;
     }
 
-    rewrite() {
+    async rewrite() {
         /* Move US value from Business Confidence to PMI*/
         this.rewriteService.US_ISM(this.workbook);
         /* Write Euro Area T10%*/
-        this.rewriteService.EUR_T10(this.workbook);
-        /* Write Austrailia IR%*/
-        this.rewriteService.AUD_IR(this.workbook);
-        /* Write US PPI */
-        this.rewriteService.US_PPI(this.workbook);
-        /* Write PPI Core IR%*/
-        this.rewriteService.US_CPPI(this.workbook);
+        await this.rewriteService.EUR_T10(this.workbook);
+        // /* Write Austrailia IR%*/
+        await this.rewriteService.AUD_IR(this.workbook);
+        // /* Write US PPI */
+        await this.rewriteService.US_PPI(this.workbook);
+        // /* Write PPI Core IR%*/
+        await this.rewriteService.US_CPPI(this.workbook);
     }
 
     createWorksheetColumns() {
