@@ -1,5 +1,10 @@
 ## Changelog ##
 
+** v1.6 **
+- Added capability to get any data from FRED API
+- Added fetch EURO_10Y, US_PPI, US_PPI_CORE, AUD_IR, US_10Y data from FRED
+- Removed EURO_10Y, US_PPI, US_PPI_CORE, AUD_IR, US_10Y from manual update notes
+
 ** v1.5 **
 - Add T10 scrape data
 - Rename EndoWebscraper to MacrofundApp
