@@ -9,23 +9,7 @@ class RewriteService {
         // Overwrite Business Confidence value into PMI value for ISM
         const BC_Worksheet = workbook.getWorksheet('BC');
         const PMI_Worksheet = workbook.getWorksheet('PMI');
-        let US_ISM_ROW_NUMBER;
-        let US_BUSINESS_CONFIDENCE_ROW_NUMBER;
-
-        PMI_Worksheet.eachRow((row, rowNumber) => {
-            const country = row.getCell('country').value;
-            if (country === 'United States') {
-                US_ISM_ROW_NUMBER = rowNumber
-            }
-        })
-
-        BC_Worksheet.eachRow((row, rowNumber) => {
-            const country = row.getCell('country').value;
-            if (country === 'United States') {
-                US_BUSINESS_CONFIDENCE_ROW_NUMBER = rowNumber
-            }
-        })
-        PMI_Worksheet.getRow(US_ISM_ROW_NUMBER).values = BC_Worksheet.getRow(US_BUSINESS_CONFIDENCE_ROW_NUMBER).values;
+        this.overwriteValuesInWorksheetByCountry('United States', BC_Worksheet, PMI_Worksheet);
     }
 
     async EUR_T10(workbook) {
@@ -64,11 +48,21 @@ class RewriteService {
         });
     }
 
+    overwriteValuesInWorksheetByCountry(country, fromWorksheet, toWorksheet) {
+        const rowIndexFrom = this.getIndexOfCountryInWorksheet(country,  fromWorksheet)
+        const rowIndexTo = this.getIndexOfCountryInWorksheet(country,  toWorksheet);
+        toWorksheet.getRow(rowIndexTo).values = fromWorksheet.getRow(rowIndexFrom).values;
+    }
+
     writeValueIntoCountry(newValue, country, worksheet) {
         // Write a new value into a cell by a given country
-        const indexOfCountry = worksheet.getColumn(1).values.indexOf(country);
+        const indexOfCountry = this.getIndexOfCountryInWorksheet(country, worksheet);
         // Value is the 2nd cell
         worksheet.getRow(indexOfCountry).getCell(2).value = newValue;
+    }
+
+    getIndexOfCountryInWorksheet(country, worksheet){
+        return worksheet.getColumn(1).values.indexOf(country);
     }
 }
 
